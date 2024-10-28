@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS sales (
     customer_id INT NOT NULL,
     product_id INT NOT NULL,
     qty INT NOT NULL,
+    payment ENUM('Cash', 'Gcash') NOT NULL, -- Added payment column
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 );
@@ -44,11 +45,11 @@ INSERT INTO products (product_code, product_name, product_price, product_unit) V
 -- Insert sample data into customers table
 INSERT INTO customers (customer_name) VALUES
 ('Jundel Malazarte'),
-('Julius Basas'),
-('Ronald Jhun Pacquiao');
+('Test Customer 1'),
+('Test Customer 2');
 
 -- Insert sample data into sales table
-INSERT INTO sales (sales_date, customer_id, product_id, qty) VALUES
-('2024-10-01', 1, 1, 5),
-('2024-10-02', 2, 2, 3),
-('2024-10-03', 3, 3, 10);
+INSERT INTO sales (sales_date, customer_id, product_id, qty, payment) VALUES
+('2024-10-01', 1, 1, 5, 'Cash'),
+('2024-10-02', 2, 2, 3, 'Gcash'),
+('2024-10-03', 3, 3, 10, 'Cash');

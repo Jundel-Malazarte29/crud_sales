@@ -42,11 +42,13 @@ function add_records($table, $fields, $data) {
     }
 }
 
+// Get sales
 function getsales() {
-    $sql = "SELECT s.sales_id, s.sales_date, c.customer_name, p.product_code, p.product_name, p.product_price, p.product_unit, s.qty, (p.product_price * s.qty) AS total
-            FROM sales s
-            INNER JOIN products p ON p.product_id = s.product_id
-            INNER JOIN customers c ON c.customer_id = s.customer_id"; // Assuming you have a customer_id in the sales table
+    $sql = "SELECT sales_id, sales_date, customers.customer_name, products.product_code, products.product_name, 
+            products.product_price, products.product_unit, qty, products.product_price * qty as total, sales.payment
+            FROM sales 
+            INNER JOIN products ON products.product_id = sales.product_id
+            INNER JOIN customers ON customers.customer_id = sales.customer_id"; // Add this join
     return getprocess($sql);
 }
 
@@ -70,4 +72,31 @@ function get_product_by_id($product_id) {
 // Get all customers for dropdown selection
 function getall_customers() {
     return getall_records('customers');
+}
+
+// Sales table functions
+function get_sale_by_id($sales_id) {
+    $sql = "SELECT * FROM sales WHERE sales_id = :sales_id";
+    $db = dbconnect();
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':sales_id', $sales_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $sale = $stmt->fetch(PDO::FETCH_ASSOC);
+    $db = null; // Close the connection
+    return $sale;
+}
+
+function update_sales($sales_id, $sales_date, $customer_id, $product_id, $qty, $payment) {
+    $sql = "UPDATE sales SET sales_date = :sales_date, customer_id = :customer_id, product_id = :product_id, qty = :qty, payment = :payment WHERE sales_id = :sales_id";
+    $db = dbconnect();
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':sales_date', $sales_date);
+    $stmt->bindParam(':customer_id', $customer_id);
+    $stmt->bindParam(':product_id', $product_id);
+    $stmt->bindParam(':qty', $qty);
+    $stmt->bindParam(':payment', $payment);
+    $stmt->bindParam(':sales_id', $sales_id, PDO::PARAM_INT);
+    $ok = $stmt->execute();
+    $db = null; // Close the connection
+    return $ok;
 }
