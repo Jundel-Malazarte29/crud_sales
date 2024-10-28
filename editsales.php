@@ -81,8 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </select>
                 </p>
                 <p>
-                    <input type="submit" value="SAVE" class="w3-button w3-blue">
-                    <input type="reset" value="CANCEL" class="w3-button w3-red">
+                    <input type="submit" value="SAVE" class="w3-button w3-blue" style="width: 100px">
+                    <button href="sales.php" class="w3-button w3-red" style="width: 100px">CANCEL</button>
                 </p>
             </form>
         </div>

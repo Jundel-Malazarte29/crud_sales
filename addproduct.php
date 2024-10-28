@@ -61,6 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="text" name="product_unit" class="w3-input w3-border" required>
             
             <button type="submit" class="w3-button w3-green w3-margin-top">Add Product</button>
+            <a href="index.php" class="w3-button w3-red w3-margin-top">Cancel</a>
         </form>
     </div>
 </body>
